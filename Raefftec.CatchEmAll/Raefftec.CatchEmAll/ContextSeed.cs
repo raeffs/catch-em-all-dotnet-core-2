@@ -1,11 +1,12 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Raefftec.CatchEmAll.Services;
 
 namespace Raefftec.CatchEmAll
 {
     internal static class ContextSeed
     {
-        public static async Task EnsureSeeded(this DAL.Context context)
+        public static async Task EnsureSeeded(this DAL.Context context, SecurityService security)
         {
             if (!context.Users.Any())
             {
@@ -13,7 +14,7 @@ namespace Raefftec.CatchEmAll
                 {
                     Username = "admin",
                     Email = "admin@localhost",
-                    PasswordHash = Helper.CryptoHelper.CreateHash("unicorn")
+                    PasswordHash = security.CreateHash("unicorn")
                 });
 
                 await context.SaveChangesAsync();

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Raefftec.CatchEmAll.Services;
 
 namespace Raefftec.CatchEmAll
 {
@@ -22,8 +23,7 @@ namespace Raefftec.CatchEmAll
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services
-                .AddMvc();
+            services.AddMvc();
 
             services
                 .AddAuthentication(options =>
@@ -33,7 +33,7 @@ namespace Raefftec.CatchEmAll
                 })
                 .AddJwtBearer("Jwt", options =>
                 {
-                    var jwtSecret = this.configuration["JwtSecret"];
+                    var jwtSecret = this.configuration.GetSection("Security").GetValue<string>("JwtSecret");
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateAudience = false,
@@ -53,6 +53,10 @@ namespace Raefftec.CatchEmAll
             services.AddDbContext<DAL.Context>(
                 o => o.UseSqlServer(this.configuration.GetConnectionString("CatchEmAllDatabase"),
                 q => q.MigrationsAssembly(typeof(DAL.Context).GetTypeInfo().Assembly.GetName().Name)));
+
+            services.AddTransient<SecurityService>();
+
+            services.Configure<SecurityOptions>(this.configuration.GetSection("Security"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,45 +1,30 @@
 ﻿using System;
 using System.Security.Cryptography;
+using Microsoft.Extensions.Options;
 
-namespace Raefftec.CatchEmAll.Helper
+namespace Raefftec.CatchEmAll.Services
 {
-    internal class InvalidHashException : Exception
+    public class SecurityService
     {
-        public InvalidHashException() { }
-        public InvalidHashException(string message)
-            : base(message) { }
-        public InvalidHashException(string message, Exception inner)
-            : base(message, inner) { }
-    }
-
-    internal class CannotPerformOperationException : Exception
-    {
-        public CannotPerformOperationException() { }
-        public CannotPerformOperationException(string message)
-            : base(message) { }
-        public CannotPerformOperationException(string message, Exception inner)
-            : base(message, inner) { }
-    }
-
-    internal static class CryptoHelper
-    {
-        // These constants may be changed without breaking existing hashes.
-        public const int SALT_BYTES = 24;
-        public const int HASH_BYTES = 18;
-        public const int PBKDF2_ITERATIONS = 64000;
-
         // These constants define the encoding and may not be changed.
-        public const int HASH_SECTIONS = 5;
-        public const int HASH_ALGORITHM_INDEX = 0;
-        public const int ITERATION_INDEX = 1;
-        public const int HASH_SIZE_INDEX = 2;
-        public const int SALT_INDEX = 3;
-        public const int PBKDF2_INDEX = 4;
+        private const int HASH_SECTIONS = 5;
+        private const int HASH_ALGORITHM_INDEX = 0;
+        private const int ITERATION_INDEX = 1;
+        private const int HASH_SIZE_INDEX = 2;
+        private const int SALT_INDEX = 3;
+        private const int PBKDF2_INDEX = 4;
 
-        public static string CreateHash(string password)
+        private readonly IOptions<SecurityOptions> options;
+
+        public SecurityService(IOptions<SecurityOptions> options)
+        {
+            this.options = options;
+        }
+
+        public string CreateHash(string password)
         {
             // Generate a random salt
-            byte[] salt = new byte[SALT_BYTES];
+            byte[] salt = new byte[this.options.Value.SaltBytes];
             try
             {
                 using (RNGCryptoServiceProvider csprng = new RNGCryptoServiceProvider())
@@ -62,11 +47,11 @@ namespace Raefftec.CatchEmAll.Helper
                 );
             }
 
-            byte[] hash = PBKDF2(password, salt, PBKDF2_ITERATIONS, HASH_BYTES);
+            byte[] hash = PBKDF2(password, salt, this.options.Value.HashIterations, this.options.Value.HashBytes);
 
             // format: algorithm:iterations:hashSize:salt:hash
             String parts = "sha1:" +
-                PBKDF2_ITERATIONS +
+                this.options.Value.HashIterations +
                 ":" +
                 hash.Length +
                 ":" +
@@ -76,7 +61,7 @@ namespace Raefftec.CatchEmAll.Helper
             return parts;
         }
 
-        public static bool VerifyPassword(string password, string goodHash)
+        public bool VerifyPassword(string password, string goodHash)
         {
             char[] delimiter = { ':' };
             string[] split = goodHash.Split(delimiter);
@@ -208,7 +193,7 @@ namespace Raefftec.CatchEmAll.Helper
             return SlowEquals(hash, testHash);
         }
 
-        private static bool SlowEquals(byte[] a, byte[] b)
+        private bool SlowEquals(byte[] a, byte[] b)
         {
             uint diff = (uint)a.Length ^ (uint)b.Length;
             for (int i = 0; i < a.Length && i < b.Length; i++)
@@ -218,13 +203,31 @@ namespace Raefftec.CatchEmAll.Helper
             return diff == 0;
         }
 
-        private static byte[] PBKDF2(string password, byte[] salt, int iterations, int outputBytes)
+        private byte[] PBKDF2(string password, byte[] salt, int iterations, int outputBytes)
         {
             using (Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, salt))
             {
                 pbkdf2.IterationCount = iterations;
                 return pbkdf2.GetBytes(outputBytes);
             }
+        }
+
+        internal class InvalidHashException : Exception
+        {
+            public InvalidHashException() { }
+            public InvalidHashException(string message)
+                : base(message) { }
+            public InvalidHashException(string message, Exception inner)
+                : base(message, inner) { }
+        }
+
+        internal class CannotPerformOperationException : Exception
+        {
+            public CannotPerformOperationException() { }
+            public CannotPerformOperationException(string message)
+                : base(message) { }
+            public CannotPerformOperationException(string message, Exception inner)
+                : base(message, inner) { }
         }
     }
 }

@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Raefftec.CatchEmAll.Services;
 
 namespace Raefftec.CatchEmAll.Controllers
 {
@@ -13,10 +15,14 @@ namespace Raefftec.CatchEmAll.Controllers
     public class TokenController : Controller
     {
         private readonly DAL.Context context;
+        private readonly SecurityService security;
+        private readonly IOptions<SecurityOptions> options;
 
-        public TokenController(DAL.Context context)
+        public TokenController(DAL.Context context, SecurityService security, IOptions<SecurityOptions> options)
         {
             this.context = context;
+            this.security = security;
+            this.options = options;
         }
 
         [HttpPost]
@@ -28,11 +34,11 @@ namespace Raefftec.CatchEmAll.Controllers
 
             if (user == null)
             {
-                Helper.CryptoHelper.VerifyPassword(password, Helper.CryptoHelper.CreateHash(password));
+                this.security.VerifyPassword(password, this.security.CreateHash(password));
             }
             else
             {
-                if (Helper.CryptoHelper.VerifyPassword(password, user.PasswordHash))
+                if (this.security.VerifyPassword(password, user.PasswordHash))
                 {
                     var token = this.CreateToken(user);
                     return this.Ok(token);
@@ -52,7 +58,7 @@ namespace Raefftec.CatchEmAll.Controllers
                 new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString()),
             };
 
-            var jwtSecret = "MyVerySecurePersonalSecretString";
+            var jwtSecret = this.options.Value.JwtSecret;
             var token = new JwtSecurityToken(new JwtHeader(new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)), SecurityAlgorithms.HmacSha256)), new JwtPayload(claims));
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

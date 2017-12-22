@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Raefftec.CatchEmAll.Services;
 
 namespace Raefftec.CatchEmAll
 {
@@ -22,10 +23,12 @@ namespace Raefftec.CatchEmAll
                 try
                 {
                     logger.LogInformation("Attempt to migrate database...");
+
+                    var security = services.GetRequiredService<SecurityService>();
                     using (var context = services.GetRequiredService<DAL.Context>())
                     {
                         await context.Database.MigrateAsync().ConfigureAwait(false);
-                        await context.EnsureSeeded();
+                        await context.EnsureSeeded(security);
                     }
                 }
                 catch (Exception exception)

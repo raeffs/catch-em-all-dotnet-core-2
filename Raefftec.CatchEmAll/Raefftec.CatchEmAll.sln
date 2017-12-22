@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Raefftec.CatchEmAll", "Raefftec.CatchEmAll\Raefftec.CatchEmAll.csproj", "{06407267-9675-4894-B235-140AB894A5B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Raefftec.CatchEmAll.DAL", "Raefftec.CatchEmAll.DAL\Raefftec.CatchEmAll.DAL.csproj", "{984240D4-9612-4DF5-8CB7-6D4297E43197}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{06407267-9675-4894-B235-140AB894A5B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06407267-9675-4894-B235-140AB894A5B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06407267-9675-4894-B235-140AB894A5B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{984240D4-9612-4DF5-8CB7-6D4297E43197}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{984240D4-9612-4DF5-8CB7-6D4297E43197}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{984240D4-9612-4DF5-8CB7-6D4297E43197}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{984240D4-9612-4DF5-8CB7-6D4297E43197}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

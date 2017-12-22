@@ -1,23 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace Raefftec.CatchEmAll
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var logger = services.GetRequiredService<ILogger<Program>>();
+
+                try
+                {
+                    logger.LogInformation("Attempt to migrate database...");
+                    using (var context = services.GetRequiredService<DAL.Context>())
+                    {
+                        await context.Database.MigrateAsync().ConfigureAwait(false);
+                        await context.EnsureSeeded();
+                    }
+                }
+                catch (Exception exception)
+                {
+                    logger.LogCritical(exception, "Failed to migrate database!");
+                }
+            }
+
+            await host.RunAsync();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        private static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .Build();

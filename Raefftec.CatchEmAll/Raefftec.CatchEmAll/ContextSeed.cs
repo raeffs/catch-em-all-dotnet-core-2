@@ -14,7 +14,8 @@ namespace Raefftec.CatchEmAll
                 {
                     Username = "admin",
                     Email = "admin@localhost",
-                    PasswordHash = security.CreateHash("unicorn")
+                    PasswordHash = security.CreateHash("unicorn"),
+                    IsAdmin = true
                 });
 
                 await context.SaveChangesAsync();

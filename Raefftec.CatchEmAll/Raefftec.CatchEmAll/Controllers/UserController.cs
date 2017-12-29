@@ -65,7 +65,7 @@ namespace Raefftec.CatchEmAll.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] User model)
         {
-            var entry = await this.context.Users.AddAsync(new DAL.User
+            var entry = this.context.Users.Add(new DAL.User
             {
                 Username = model.Username,
                 Email = model.Email,
@@ -76,6 +76,52 @@ namespace Raefftec.CatchEmAll.Controllers
             await this.context.SaveChangesAsync();
 
             return await this.GetUser(entry.Entity.Id);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateUser([FromRoute] long id, [FromBody] User model)
+        {
+            var entity = await this.context.Users.AsTracking().SingleOrDefaultAsync(x => x.Id == id);
+
+            if (entity == null)
+            {
+                return this.NotFound();
+            }
+
+            if (entity.Username == this.HttpContext.User.Identity.Name)
+            {
+                return this.BadRequest();
+            }
+
+            entity.IsAdmin = model.IsAdmin;
+
+            await this.context.SaveChangesAsync();
+
+            return await this.GetUser(id);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteUser([FromRoute] long id)
+        {
+            var entity = await this.context.Users.AsTracking().SingleOrDefaultAsync(x => x.Id == id);
+
+            if (entity == null)
+            {
+                return this.NotFound();
+            }
+
+            if (entity.Username == this.HttpContext.User.Identity.Name)
+            {
+                return this.BadRequest();
+            }
+
+            this.context.Remove(entity);
+
+            await this.context.SaveChangesAsync();
+
+            return this.Ok();
         }
     }
 }

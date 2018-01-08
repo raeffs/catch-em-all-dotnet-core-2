@@ -31,7 +31,8 @@ namespace Raefftec.CatchEmAll.Controllers
                     Id = x.Id,
                     Username = x.Username,
                     Email = x.Email,
-                    IsAdmin = x.IsAdmin
+                    IsAdmin = x.IsAdmin,
+                    IsEnabled = x.IsEnabled
                 })
                 .ToPageAsync();
 
@@ -50,7 +51,8 @@ namespace Raefftec.CatchEmAll.Controllers
                     Id = x.Id,
                     Username = x.Username,
                     Email = x.Email,
-                    IsAdmin = x.IsAdmin
+                    IsAdmin = x.IsAdmin,
+                    IsEnabled = x.IsEnabled
                 })
                 .SingleOrDefaultAsync();
 
@@ -70,6 +72,7 @@ namespace Raefftec.CatchEmAll.Controllers
                 Username = model.Username,
                 Email = model.Email,
                 IsAdmin = model.IsAdmin,
+                IsEnabled = model.IsEnabled,
                 PasswordHash = this.security.CreateHash(model.Username)
             });
 
@@ -95,6 +98,7 @@ namespace Raefftec.CatchEmAll.Controllers
             }
 
             entity.IsAdmin = model.IsAdmin;
+            entity.IsEnabled = model.IsEnabled;
 
             await this.context.SaveChangesAsync();
 

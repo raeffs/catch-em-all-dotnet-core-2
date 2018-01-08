@@ -11,6 +11,8 @@ namespace Raefftec.CatchEmAll.DAL
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Category> Categories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -19,6 +21,10 @@ namespace Raefftec.CatchEmAll.DAL
 
             modelBuilder.Entity<User>()
                 .HasIndex(x => x.Email)
+                .IsUnique();
+
+            modelBuilder.Entity<Category>()
+                .HasIndex(x => new { x.UserId, x.Number })
                 .IsUnique();
 
             base.OnModelCreating(modelBuilder);

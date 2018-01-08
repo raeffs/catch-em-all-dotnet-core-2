@@ -31,7 +31,7 @@ namespace Raefftec.CatchEmAll.Controllers
         {
             var user = await this.context.Users
                 .AsNoTracking()
-                .SingleOrDefaultAsync(x => x.Username == username);
+                .SingleOrDefaultAsync(x => x.Username == username && x.IsEnabled);
 
             if (user == null)
             {

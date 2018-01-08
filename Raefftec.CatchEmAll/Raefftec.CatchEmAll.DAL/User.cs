@@ -16,5 +16,7 @@ namespace Raefftec.CatchEmAll.DAL
         public string PasswordHash { get; set; }
 
         public bool IsAdmin { get; set; }
+
+        public bool IsEnabled { get; set; }
     }
 }

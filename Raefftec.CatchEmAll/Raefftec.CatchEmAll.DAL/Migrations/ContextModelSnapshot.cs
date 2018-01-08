@@ -20,6 +20,26 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Raefftec.CatchEmAll.DAL.Category", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<int>("Number");
+
+                    b.Property<long>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "Number")
+                        .IsUnique();
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("Raefftec.CatchEmAll.DAL.User", b =>
                 {
                     b.Property<long>("Id")
@@ -29,6 +49,8 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                         .IsRequired();
 
                     b.Property<bool>("IsAdmin");
+
+                    b.Property<bool>("IsEnabled");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired();
@@ -45,6 +67,14 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Raefftec.CatchEmAll.DAL.Category", b =>
+                {
+                    b.HasOne("Raefftec.CatchEmAll.DAL.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

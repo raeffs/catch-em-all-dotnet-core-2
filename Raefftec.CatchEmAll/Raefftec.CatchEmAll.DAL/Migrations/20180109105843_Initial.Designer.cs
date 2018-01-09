@@ -11,7 +11,7 @@ using System;
 namespace Raefftec.CatchEmAll.DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20180108102237_Initial")]
+    [Migration("20180109105843_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,8 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("IsDeleted");
+
                     b.Property<string>("Name")
                         .IsRequired();
 
@@ -39,6 +41,41 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Raefftec.CatchEmAll.DAL.Query", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("AutoFilterDeletedDuplicates");
+
+                    b.Property<long>("CategoryId");
+
+                    b.Property<decimal?>("DesiredPrice");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<int>("NotificationMode");
+
+                    b.Property<bool>("UseDescription");
+
+                    b.Property<string>("WithAllTheseWords");
+
+                    b.Property<string>("WithExactlyTheseWords");
+
+                    b.Property<string>("WithNoneOfTheseWords");
+
+                    b.Property<string>("WithOneOfTheseWords");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Queries");
                 });
 
             modelBuilder.Entity("Raefftec.CatchEmAll.DAL.User", b =>
@@ -75,6 +112,14 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                     b.HasOne("Raefftec.CatchEmAll.DAL.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Raefftec.CatchEmAll.DAL.Query", b =>
+                {
+                    b.HasOne("Raefftec.CatchEmAll.DAL.Category", "Category")
+                        .WithMany("Queries")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

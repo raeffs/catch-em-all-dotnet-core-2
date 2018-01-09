@@ -13,6 +13,8 @@ namespace Raefftec.CatchEmAll.DAL
 
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<Query> Queries { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()

@@ -10,14 +10,13 @@ namespace Raefftec.CatchEmAll.Controllers
 {
     [Authorize(Roles = "admin")]
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UserController : BaseController<DAL.User>
     {
-        private readonly DAL.Context context;
         private readonly SecurityService security;
 
         public UserController(DAL.Context context, SecurityService security)
+            : base(context)
         {
-            this.context = context;
             this.security = security;
         }
 
@@ -109,23 +108,19 @@ namespace Raefftec.CatchEmAll.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeleteUser([FromRoute] long id)
         {
-            var entity = await this.context.Users.AsTracking().SingleOrDefaultAsync(x => x.Id == id);
-
-            if (entity == null)
+            return await this.DeleteAsync(new DeleteArguments<DAL.User>
             {
-                return this.NotFound();
-            }
+                Predicate = x => x.Id == id,
+                Assertion = x =>
+                {
+                    if (x.Username == this.HttpContext.User.Identity.Name)
+                    {
+                        return this.BadRequest();
+                    }
 
-            if (entity.Username == this.HttpContext.User.Identity.Name)
-            {
-                return this.BadRequest();
-            }
-
-            this.context.Remove(entity);
-
-            await this.context.SaveChangesAsync();
-
-            return this.Ok();
+                    return null;
+                }
+            });
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,105 +8,90 @@ namespace Raefftec.CatchEmAll.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class CategoryController : Controller
+    public class CategoryController : BaseController<DAL.Category>
     {
-        private readonly DAL.Context context;
-
         public CategoryController(DAL.Context context)
+            : base(context)
         {
-            this.context = context;
+            this.DefaultPredicate = x => x.User.Username == this.HttpContext.User.Identity.Name;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetCategories(int? page = null)
         {
-            var model = await this.context.Categories
-                .AsNoTracking()
-                .Where(x => x.User.Username == this.HttpContext.User.Identity.Name)
-                .Select(x => new Category
+            return await this.GetPageAsync(new GetPageArguments<DAL.Category, Category>
+            {
+                Selector = x => new Category
                 {
                     Id = x.Id,
                     Number = x.Number,
                     Name = x.Name
-                })
-                .ToPageAsync();
-
-            return this.Ok(model);
+                }
+            });
         }
 
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetCategory([FromRoute] long id)
         {
-            var model = await this.context.Categories
-                .AsNoTracking()
-                .Where(x => x.Id == id && x.User.Username == this.HttpContext.User.Identity.Name)
-                .Select(x => new Category
+            return await this.GetAsync(new GetArguments<DAL.Category, Category>
+            {
+                Predicate = x => x.Id == id,
+                Selector = x => new Category
                 {
                     Id = x.Id,
                     Number = x.Number,
                     Name = x.Name
-                })
-                .SingleOrDefaultAsync();
-
-            if (model == null)
-            {
-                return this.NotFound();
-            }
-
-            return this.Ok(model);
+                }
+            });
         }
 
         [HttpPost]
         public async Task<IActionResult> AddCategory([FromBody] Category model)
         {
-            var entry = this.context.Categories.Add(new DAL.Category
+            return await this.AddAsync(new AddArguments<DAL.Category>
             {
-                Name = model.Name,
-                Number = model.Number,
-                User = await this.context.Users.SingleAsync(x => x.Username == this.HttpContext.User.Identity.Name)
+                Entity = new DAL.Category
+                {
+                    Name = model.Name,
+                    Number = model.Number,
+                    User = await this.context.Users.SingleAsync(x => x.Username == this.HttpContext.User.Identity.Name)
+                },
+                GetAction = x => this.GetCategory(x)
             });
-
-            await this.context.SaveChangesAsync();
-
-            return await this.GetCategory(entry.Entity.Id);
         }
 
         [HttpPut]
         [Route("{id}")]
         public async Task<IActionResult> UpdateCategory([FromRoute] long id, [FromBody] Category model)
         {
-            var entity = await this.context.Categories.AsTracking().SingleOrDefaultAsync(x => x.Id == id && x.User.Username == this.HttpContext.User.Identity.Name);
-
-            if (entity == null)
+            return await this.UpdateAsync(new UpdateArguments<DAL.Category>
             {
-                return this.NotFound();
-            }
-
-            entity.Name = model.Name;
-            entity.Number = model.Number;
-
-            await this.context.SaveChangesAsync();
-
-            return await this.GetCategory(id);
+                Predicate = x => x.Id == id,
+                UpdateAction = x =>
+                {
+                    x.Name = model.Name;
+                    x.Number = model.Number;
+                },
+                GetAction = x => this.GetCategory(x)
+            });
         }
 
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> DeleteCategory([FromRoute] long id)
         {
-            var entity = await this.context.Categories.AsTracking().SingleOrDefaultAsync(x => x.Id == id && x.User.Username == this.HttpContext.User.Identity.Name);
-
-            if (entity == null)
+            return await this.DeleteAsync(new DeleteArguments<DAL.Category>
             {
-                return this.NotFound();
-            }
-
-            this.context.Remove(entity);
-
-            await this.context.SaveChangesAsync();
-
-            return this.Ok();
+                Predicate = x => x.Id == id,
+                SoftDeleteAction = x =>
+                {
+                    foreach (var query in x.Queries)
+                    {
+                        query.IsDeleted = true;
+                    }
+                }
+            });
         }
     }
 }

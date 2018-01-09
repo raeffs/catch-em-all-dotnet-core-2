@@ -2,7 +2,7 @@
 
 namespace Raefftec.CatchEmAll.DAL
 {
-    public class User
+    public class User : IHasIdentifier
     {
         public long Id { get; set; }
 

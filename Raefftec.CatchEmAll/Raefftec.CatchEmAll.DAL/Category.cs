@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Raefftec.CatchEmAll.DAL
 {
-    public class Category
+    public class Category : IHasIdentifier, IHasSoftDelete
     {
         public long Id { get; set; }
 
@@ -16,5 +17,9 @@ namespace Raefftec.CatchEmAll.DAL
 
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
+
+        public virtual ICollection<Query> Queries { get; set; } = new HashSet<Query>();
+
+        public bool IsDeleted { get; set; }
     }
 }

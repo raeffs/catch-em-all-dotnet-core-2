@@ -64,6 +64,9 @@
         },
         "guard": {
             "spec": false
+        },
+        "build": {
+            "namedChunks": true
         }
     }
 }

@@ -1,35 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
+import { TokenStoreService } from './token-store.service';
 
 @Injectable()
 export class AuthenticationService {
 
-    private token: string;
-
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private tokenStore: TokenStoreService
     ) { }
 
     public isAuthenticated(): boolean {
-        return !!this.token;
+        return !!this.tokenStore.token;
     }
 
     public login(username: string, password: string): Observable<boolean> {
-        /*
-        return Observable.of(!!username && username === password)
-            .map(success => {
-                this.token = success ? 'tokenvalue' : '';
-                return success;
-            });*/
-
-
-        return this.http.post('http://localhost:5000/api/token', { username, password }, { responseType: 'text' })
+        return this.http.post('/api/token', { username, password }, { responseType: 'text' })
             .map(token => {
-                this.token = token;
+                this.tokenStore.token = token;
                 return !!token;
             });
-
     }
 
 }

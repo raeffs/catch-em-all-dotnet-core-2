@@ -5,3 +5,20 @@
 .empty.full-size {
     height: 100%;
 }
+
+.nav {
+    padding: 1.5em;
+}
+
+.nav .nav-item a,
+.breadcrumb .breadcrumb-item {
+    font-variant: small-caps;
+}
+
+.off-canvas .off-canvas-content {
+    padding: 1.2rem 4rem;
+}
+
+.column {
+    padding-bottom: 0.4rem;
+}

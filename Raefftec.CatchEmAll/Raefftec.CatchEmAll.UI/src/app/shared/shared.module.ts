@@ -2,7 +2,9 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthenticationService } from './services/authentication.service';
 import { AuthenticationGuard } from './guards/authentication.guard';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
+import { TokenStoreService } from './services/token-store.service';
 
 @NgModule({
     imports: [
@@ -17,8 +19,14 @@ export class SharedModule {
         return {
             ngModule: SharedModule,
             providers: [
+                TokenStoreService,
                 AuthenticationService,
-                AuthenticationGuard
+                AuthenticationGuard,
+                {
+                    provide: HTTP_INTERCEPTORS,
+                    useClass: AuthenticationInterceptor,
+                    multi: true
+                }
             ]
         };
     }

@@ -77,6 +77,39 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Results",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BidPrice = table.Column<decimal>(nullable: true),
+                    Closed = table.Column<bool>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Ends = table.Column<DateTimeOffset>(nullable: true),
+                    ExternalId = table.Column<long>(nullable: false),
+                    Favorite = table.Column<bool>(nullable: false),
+                    FinalPrice = table.Column<decimal>(nullable: true),
+                    Hidden = table.Column<bool>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    New = table.Column<bool>(nullable: false),
+                    Notified = table.Column<bool>(nullable: false),
+                    PurchasePrice = table.Column<decimal>(nullable: true),
+                    QueryId = table.Column<long>(nullable: false),
+                    Sold = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Results", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Results_Queries_QueryId",
+                        column: x => x.QueryId,
+                        principalTable: "Queries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_UserId_Number",
                 table: "Categories",
@@ -87,6 +120,11 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                 name: "IX_Queries_CategoryId",
                 table: "Queries",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Results_QueryId",
+                table: "Results",
+                column: "QueryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
@@ -103,6 +141,9 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Results");
+
             migrationBuilder.DropTable(
                 name: "Queries");
 

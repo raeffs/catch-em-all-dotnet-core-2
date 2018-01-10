@@ -11,7 +11,7 @@ using System;
 namespace Raefftec.CatchEmAll.DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20180109105843_Initial")]
+    [Migration("20180109135113_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,6 +78,49 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                     b.ToTable("Queries");
                 });
 
+            modelBuilder.Entity("Raefftec.CatchEmAll.DAL.Result", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal?>("BidPrice");
+
+                    b.Property<bool>("Closed");
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTimeOffset?>("Ends");
+
+                    b.Property<long>("ExternalId");
+
+                    b.Property<bool>("Favorite");
+
+                    b.Property<decimal?>("FinalPrice");
+
+                    b.Property<bool>("Hidden");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<bool>("New");
+
+                    b.Property<bool>("Notified");
+
+                    b.Property<decimal?>("PurchasePrice");
+
+                    b.Property<long>("QueryId");
+
+                    b.Property<bool>("Sold");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QueryId");
+
+                    b.ToTable("Results");
+                });
+
             modelBuilder.Entity("Raefftec.CatchEmAll.DAL.User", b =>
                 {
                     b.Property<long>("Id")
@@ -120,6 +163,14 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                     b.HasOne("Raefftec.CatchEmAll.DAL.Category", "Category")
                         .WithMany("Queries")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Raefftec.CatchEmAll.DAL.Result", b =>
+                {
+                    b.HasOne("Raefftec.CatchEmAll.DAL.Query", "Query")
+                        .WithMany("Results")
+                        .HasForeignKey("QueryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

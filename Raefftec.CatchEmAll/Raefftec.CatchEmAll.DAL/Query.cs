@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Raefftec.CatchEmAll.DAL
@@ -32,5 +33,7 @@ namespace Raefftec.CatchEmAll.DAL
         public decimal? DesiredPrice { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public virtual ICollection<Result> Results { get; set; } = new HashSet<Result>();
     }
 }

@@ -15,6 +15,8 @@ namespace Raefftec.CatchEmAll.DAL
 
         public DbSet<Query> Queries { get; set; }
 
+        public DbSet<Result> Results { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()

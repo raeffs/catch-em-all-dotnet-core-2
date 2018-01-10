@@ -89,6 +89,10 @@ namespace Raefftec.CatchEmAll.Controllers
                     foreach (var query in x.Queries)
                     {
                         query.IsDeleted = true;
+                        foreach (var result in query.Results)
+                        {
+                            result.IsDeleted = true;
+                        }
                     }
                 }
             });

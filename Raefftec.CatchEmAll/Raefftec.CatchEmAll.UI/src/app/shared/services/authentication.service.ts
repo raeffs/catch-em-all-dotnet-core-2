@@ -16,18 +16,20 @@ export class AuthenticationService {
     }
 
     public login(username: string, password: string): Observable<boolean> {
+        /*
         return Observable.of(!!username && username === password)
             .map(success => {
                 this.token = success ? 'tokenvalue' : '';
                 return success;
-            });
+            });*/
 
-        /*
-        return this.http.post<string>('http://localhost:25084/api/token', null, { params: { username, password } })
+
+        return this.http.post('http://localhost:5000/api/token', { username, password }, { responseType: 'text' })
             .map(token => {
                 this.token = token;
+                return !!token;
             });
-            */
+
     }
 
 }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Raefftec.CatchEmAll.Models;
 using Raefftec.CatchEmAll.Services;
 
 namespace Raefftec.CatchEmAll.Controllers
@@ -27,19 +28,19 @@ namespace Raefftec.CatchEmAll.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string username, string password)
+        public async Task<IActionResult> Create([FromBody] TokenCreation model)
         {
             var user = await this.context.Users
                 .AsNoTracking()
-                .SingleOrDefaultAsync(x => x.Username == username && x.IsEnabled);
+                .SingleOrDefaultAsync(x => x.Username == model.Username && x.IsEnabled);
 
             if (user == null)
             {
-                this.security.VerifyPassword(password, this.security.CreateHash(password));
+                this.security.VerifyPassword(model.Password, this.security.CreateHash(model.Password));
             }
             else
             {
-                if (this.security.VerifyPassword(password, user.PasswordHash))
+                if (this.security.VerifyPassword(model.Password, user.PasswordHash))
                 {
                     var token = this.CreateToken(user);
                     return this.Ok(token);

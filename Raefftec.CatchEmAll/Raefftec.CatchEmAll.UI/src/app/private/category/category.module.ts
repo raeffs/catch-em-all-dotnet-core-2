@@ -4,12 +4,15 @@ import { CommonModule } from '@angular/common';
 import { CategoryRoutingModule } from './category-routing.module';
 import { ListComponent } from './list/list.component';
 import { DetailComponent } from './detail/detail.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CategoryRoutingModule
-  ],
-  declarations: [ListComponent, DetailComponent]
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        CategoryRoutingModule
+    ],
+    declarations: [ListComponent, DetailComponent]
 })
 export class CategoryModule { }

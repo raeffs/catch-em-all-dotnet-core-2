@@ -22,3 +22,8 @@
 .column {
     padding-bottom: 0.4rem;
 }
+
+th.fill-space,
+td.fill-space {
+    width: 100%;
+}

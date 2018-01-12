@@ -28,7 +28,7 @@ namespace Reafftec.CatchEmAll.WebJobs
             }
             catch (Exception exception)
             {
-                // log and write to db/store
+                logger.LogError(exception, "Failed to update query!");
             }
         }
 
@@ -40,7 +40,7 @@ namespace Reafftec.CatchEmAll.WebJobs
             }
             catch (Exception exception)
             {
-                // log and write to db/store
+                logger.LogError(exception, "Failed to update query!");
             }
         }
 
@@ -52,7 +52,7 @@ namespace Reafftec.CatchEmAll.WebJobs
             }
             catch (Exception exception)
             {
-                // log and write to db/store
+                logger.LogError(exception, "Failed to update query!");
             }
         }
 
@@ -70,7 +70,7 @@ namespace Reafftec.CatchEmAll.WebJobs
                 await this.UpdateResultsAsync(parameters, query.Results);
                 await this.UnloadQueryAsync(parameters);
             }
-            catch (Exception exception)
+            catch
             {
                 await this.UnloadQueryAsync(parameters);
                 throw;

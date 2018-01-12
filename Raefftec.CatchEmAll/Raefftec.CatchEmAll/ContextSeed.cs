@@ -23,6 +23,18 @@ namespace Raefftec.CatchEmAll
                 await context.SaveChangesAsync();
             }
 
+            if (!context.Subscriptions.Any())
+            {
+                await context.Subscriptions.AddAsync(new DAL.Subscription
+                {
+                    Name = "Demo Subscription",
+                    IsDefault = true,
+                    HighPriorityQuota = 0,
+                    NormalPriotiryQuota = 2,
+                    LowPriotityQuota = 4
+                });
+            }
+
             if (!context.Categories.Any())
             {
                 await context.Categories.AddAsync(new DAL.Category

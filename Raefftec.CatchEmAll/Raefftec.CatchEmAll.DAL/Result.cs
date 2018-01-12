@@ -20,13 +20,13 @@ namespace Raefftec.CatchEmAll.DAL
         [ForeignKey(nameof(QueryId))]
         public virtual Query Query { get; set; }
 
-        public bool Closed { get; set; }
+        public bool IsClosed { get; set; }
 
-        public bool Sold { get; set; }
+        public bool IsSold { get; set; }
 
-        public bool Hidden { get; set; }
+        public bool IsHidden { get; set; }
 
-        public bool Notified { get; set; }
+        public bool IsNotified { get; set; }
 
         public DateTimeOffset? Ends { get; set; }
 
@@ -36,10 +36,12 @@ namespace Raefftec.CatchEmAll.DAL
 
         public decimal? FinalPrice { get; set; }
 
-        public bool New { get; set; }
+        public bool IsNew { get; set; }
 
-        public bool Favorite { get; set; }
+        public bool IsFavorite { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public DateTimeOffset Updated { get; set; }
     }
 }

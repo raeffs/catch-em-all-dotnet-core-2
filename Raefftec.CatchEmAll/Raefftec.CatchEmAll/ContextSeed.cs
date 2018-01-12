@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Raefftec.CatchEmAll.Services;
 
@@ -17,6 +18,32 @@ namespace Raefftec.CatchEmAll
                     PasswordHash = security.CreateHash("unicorn"),
                     IsAdmin = true,
                     IsEnabled = true
+                });
+
+                await context.SaveChangesAsync();
+            }
+
+            if (!context.Categories.Any())
+            {
+                await context.Categories.AddAsync(new DAL.Category
+                {
+                    Name = "Cat1",
+                    Number = 44092,
+                    UserId = 1
+                });
+
+                await context.SaveChangesAsync();
+            }
+
+            if (!context.Queries.Any())
+            {
+                await context.Queries.AddAsync(new DAL.Query
+                {
+                    CategoryId = 1,
+                    Name = "Test",
+                    Updated = DateTimeOffset.Now,
+                    WithAllTheseWords = "105",
+                    Priority = DAL.Priority.High
                 });
 
                 await context.SaveChangesAsync();

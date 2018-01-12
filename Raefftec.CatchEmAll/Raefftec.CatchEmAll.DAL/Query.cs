@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -35,5 +36,11 @@ namespace Raefftec.CatchEmAll.DAL
         public bool IsDeleted { get; set; }
 
         public virtual ICollection<Result> Results { get; set; } = new HashSet<Result>();
+
+        public DateTimeOffset Updated { get; set; }
+
+        public bool IsLocked { get; set; }
+
+        public Priority Priority { get; set; }
     }
 }

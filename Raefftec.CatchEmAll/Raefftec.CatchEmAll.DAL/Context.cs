@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace Raefftec.CatchEmAll.DAL
 {
@@ -32,6 +33,11 @@ namespace Raefftec.CatchEmAll.DAL
                 .IsUnique();
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public object NoTracking<T>()
+        {
+            throw new NotImplementedException();
         }
     }
 }

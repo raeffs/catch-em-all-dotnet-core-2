@@ -55,10 +55,16 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<bool>("IsLocked");
+
                     b.Property<string>("Name")
                         .IsRequired();
 
                     b.Property<int>("NotificationMode");
+
+                    b.Property<int>("Priority");
+
+                    b.Property<DateTimeOffset>("Updated");
 
                     b.Property<bool>("UseDescription");
 
@@ -84,34 +90,36 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
 
                     b.Property<decimal?>("BidPrice");
 
-                    b.Property<bool>("Closed");
-
                     b.Property<string>("Description");
 
                     b.Property<DateTimeOffset?>("Ends");
 
                     b.Property<long>("ExternalId");
 
-                    b.Property<bool>("Favorite");
-
                     b.Property<decimal?>("FinalPrice");
 
-                    b.Property<bool>("Hidden");
+                    b.Property<bool>("IsClosed");
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<bool>("IsFavorite");
+
+                    b.Property<bool>("IsHidden");
+
+                    b.Property<bool>("IsNew");
+
+                    b.Property<bool>("IsNotified");
+
+                    b.Property<bool>("IsSold");
+
                     b.Property<string>("Name")
                         .IsRequired();
-
-                    b.Property<bool>("New");
-
-                    b.Property<bool>("Notified");
 
                     b.Property<decimal?>("PurchasePrice");
 
                     b.Property<long>("QueryId");
 
-                    b.Property<bool>("Sold");
+                    b.Property<DateTimeOffset>("Updated");
 
                     b.HasKey("Id");
 

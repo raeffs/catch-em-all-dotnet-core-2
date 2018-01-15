@@ -10,6 +10,23 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Subscriptions",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    HighPriorityQuota = table.Column<int>(nullable: false),
+                    IsDefault = table.Column<bool>(nullable: false),
+                    LowPriotityQuota = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    NormalPriotiryQuota = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subscriptions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -147,6 +164,9 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Results");
+
+            migrationBuilder.DropTable(
+                name: "Subscriptions");
 
             migrationBuilder.DropTable(
                 name: "Queries");

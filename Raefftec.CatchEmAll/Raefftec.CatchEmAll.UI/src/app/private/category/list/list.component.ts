@@ -1,24 +1,35 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Page } from '../../../shared/types/page.class';
+import { Page, PaginationHelper } from '../../../shared/types/page.class';
 import { Category } from '../../../shared/types/category.class';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.css'],
-    //changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListComponent implements OnInit {
+export class ListComponent {
 
-    public model: Observable<Page<Category>>;
+    public model: BehaviorSubject<PaginationHelper<Category>> = new BehaviorSubject<PaginationHelper<Category>>(new PaginationHelper());
 
     constructor(
         private http: HttpClient
-    ) { }
+    ) {
+        this.loadPage(1);
+    }
 
-    ngOnInit() {
-        this.model = this.http.get<Page<Category>>('/api/category');
+    public nextPage(): void {
+        this.loadPage(this.model.value.nextPage);
+    }
+
+    public previousPage(): void {
+        this.loadPage(this.model.value.previousPage);
+    }
+
+    private loadPage(page: number): void {
+        this.http.get<Page<Category>>('/api/category', { params: { page: page.toString() } })
+            .subscribe(model => this.model.next(new PaginationHelper(model)));
     }
 }

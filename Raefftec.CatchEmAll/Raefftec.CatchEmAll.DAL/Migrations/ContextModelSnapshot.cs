@@ -128,6 +128,26 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                     b.ToTable("Results");
                 });
 
+            modelBuilder.Entity("Raefftec.CatchEmAll.DAL.Subscription", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("HighPriorityQuota");
+
+                    b.Property<bool>("IsDefault");
+
+                    b.Property<int>("LowPriotityQuota");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("NormalPriotiryQuota");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subscriptions");
+                });
+
             modelBuilder.Entity("Raefftec.CatchEmAll.DAL.User", b =>
                 {
                     b.Property<long>("Id")

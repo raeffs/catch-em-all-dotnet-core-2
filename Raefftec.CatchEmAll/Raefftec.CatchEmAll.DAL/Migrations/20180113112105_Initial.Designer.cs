@@ -11,7 +11,7 @@ using System;
 namespace Raefftec.CatchEmAll.DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20180112121552_Initial")]
+    [Migration("20180113112105_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,6 +127,26 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                     b.HasIndex("QueryId");
 
                     b.ToTable("Results");
+                });
+
+            modelBuilder.Entity("Raefftec.CatchEmAll.DAL.Subscription", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("HighPriorityQuota");
+
+                    b.Property<bool>("IsDefault");
+
+                    b.Property<int>("LowPriotityQuota");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("NormalPriotiryQuota");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subscriptions");
                 });
 
             modelBuilder.Entity("Raefftec.CatchEmAll.DAL.User", b =>

@@ -26,7 +26,8 @@ namespace Raefftec.CatchEmAll.Controllers
                     Id = x.Id,
                     Number = x.Number,
                     Name = x.Name
-                }
+                },
+                Page = page.Value
             });
         }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-detail',
@@ -21,7 +21,7 @@ export class DetailComponent implements OnInit {
         this.model = this.builder.group({
             id: 0,
             number: null,
-            name: ''
+            name: ['', Validators.required]
         });
     }
 

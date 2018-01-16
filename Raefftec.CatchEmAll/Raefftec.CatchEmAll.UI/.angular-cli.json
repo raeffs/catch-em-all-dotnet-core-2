@@ -65,6 +65,9 @@
         "guard": {
             "spec": false
         },
+        "pipe": {
+            "spec": false
+        },
         "build": {
             "namedChunks": true
         }

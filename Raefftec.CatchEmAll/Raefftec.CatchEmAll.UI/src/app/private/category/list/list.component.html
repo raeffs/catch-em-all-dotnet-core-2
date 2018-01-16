@@ -22,6 +22,15 @@
                         <th>Name</th>
                         <th class="fill-space"></th>
                     </tr>
+                    <tr>
+                        <td>
+                            <input class="form-input input-sm" type="text" placeholder="Number">
+                        </td>
+                        <td>
+                            <input class="form-input input-sm" type="text" placeholder="Name">
+                        </td>
+                        <td class="fill-space"></td>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of (model | async).items">

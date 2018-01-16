@@ -11,7 +11,7 @@ using System;
 namespace Raefftec.CatchEmAll.DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20180116102047_Initial")]
+    [Migration("20180116154941_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

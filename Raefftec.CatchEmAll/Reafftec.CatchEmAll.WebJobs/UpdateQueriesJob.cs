@@ -19,7 +19,6 @@ namespace Reafftec.CatchEmAll.WebJobs
             this.factory = factory;
         }
 
-        [Singleton]
         public async Task UpdateQueryWithHighPriorityAsync([TimerTrigger("5,10,20,25,35,40,50,55 * * * * *", RunOnStartup = false)] TimerInfo timerInfo, ILogger logger)
         {
             try

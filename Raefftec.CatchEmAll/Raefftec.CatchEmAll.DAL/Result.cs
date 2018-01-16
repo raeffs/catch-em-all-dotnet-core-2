@@ -43,5 +43,7 @@ namespace Raefftec.CatchEmAll.DAL
         public bool IsDeleted { get; set; }
 
         public DateTimeOffset Updated { get; set; }
+
+        public bool IsLocked { get; set; }
     }
 }

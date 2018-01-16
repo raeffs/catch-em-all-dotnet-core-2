@@ -27,10 +27,16 @@ namespace Reafftec.CatchEmAll.WebJobs.Helper
 
             var queryString = string.Join("&", parts);
 
-            return string.Format(UrlPattern, queryString);
+            return string.Format(QueryUrlPattern, queryString);
         }
 
-        private static readonly string UrlPattern = "https://www.ricardo.ch/search/index/?SortingType=1&PageSize=120&{0}";
+        public static string FromResultParameters(ResultParameters parameters)
+        {
+            return string.Format(ResultUrlPattern, parameters.ExternalId);
+        }
+
+        private static readonly string QueryUrlPattern = "https://www.ricardo.ch/search/index/?SortingType=1&PageSize=120&{0}";
+        private static readonly string ResultUrlPattern = "https://www.ricardo.ch/v/an{0}/";
 
         private static readonly string UseDescriptionKey = "UseDescription";
         private static readonly string WithAllTheseWordsKey = "SearchSentence";

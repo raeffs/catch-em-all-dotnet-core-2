@@ -106,6 +106,8 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
 
                     b.Property<bool>("IsHidden");
 
+                    b.Property<bool>("IsLocked");
+
                     b.Property<bool>("IsNew");
 
                     b.Property<bool>("IsNotified");

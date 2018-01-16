@@ -31,9 +31,6 @@ namespace Reafftec.CatchEmAll.WebJobs
 
         private static IConfiguration ConfigureServices(IServiceCollection services)
         {
-            // Setup your container here, just like a asp.net core app
-
-            // Optional: Setup your configuration:
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -42,15 +39,12 @@ namespace Reafftec.CatchEmAll.WebJobs
             //serviceCollection.Configure<MySettings>(configuration);
 
             services.AddTransient<UpdateQueriesJob, UpdateQueriesJob>();
+            services.AddTransient<UpdateResultsJob, UpdateResultsJob>();
 
             services.AddDbContext<Context>(
                 o => o.UseSqlServer(configuration.GetConnectionString("CatchEmAllDatabase"),
                 q => q.MigrationsAssembly(typeof(Context).GetTypeInfo().Assembly.GetName().Name)), ServiceLifetime.Transient);
             services.AddTransient<ContextFactory, ContextFactory>();
-
-            // One more thing - tell azure where your azure connection strings are
-            //Environment.SetEnvironmentVariable("AzureWebJobsDashboard", configuration.GetConnectionString("WebJobsDashboard"));
-            //Environment.SetEnvironmentVariable("AzureWebJobsStorage", configuration.GetConnectionString("WebJobsStorage"));
 
             return configuration;
         }

@@ -11,7 +11,7 @@ using System;
 namespace Raefftec.CatchEmAll.DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20180113112105_Initial")]
+    [Migration("20180116082711_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -106,6 +106,8 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                     b.Property<bool>("IsFavorite");
 
                     b.Property<bool>("IsHidden");
+
+                    b.Property<bool>("IsLocked");
 
                     b.Property<bool>("IsNew");
 

@@ -15,5 +15,14 @@ namespace Reafftec.CatchEmAll.WebJobs.Helper
             document.Load(response.GetResponseStream());
             return new Query(document.DocumentNode);
         }
+
+        public static async Task<Result> ResultFromSourceAsync(ResultParameters parameters)
+        {
+            var url = Url.FromResultParameters(parameters);
+            var response = await WebRequest.Create(url).GetResponseAsync();
+            var document = new HtmlDocument();
+            document.Load(response.GetResponseStream());
+            return new Result(document.DocumentNode);
+        }
     }
 }

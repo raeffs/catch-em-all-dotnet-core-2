@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace Raefftec.CatchEmAll.DAL.Migrations
 {
@@ -112,6 +111,7 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     IsFavorite = table.Column<bool>(nullable: false),
                     IsHidden = table.Column<bool>(nullable: false),
+                    IsLocked = table.Column<bool>(nullable: false),
                     IsNew = table.Column<bool>(nullable: false),
                     IsNotified = table.Column<bool>(nullable: false),
                     IsSold = table.Column<bool>(nullable: false),

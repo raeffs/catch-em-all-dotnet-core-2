@@ -31,7 +31,13 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AlternativeEmail = table.Column<string>(nullable: true),
+                    AutoFilterDeletedDuplicatesDefault = table.Column<bool>(nullable: false),
                     Email = table.Column<string>(nullable: false),
+                    EnableEmailNotification = table.Column<bool>(nullable: false),
+                    EnableIftttNotification = table.Column<bool>(nullable: false),
+                    IftttMakerEventName = table.Column<string>(nullable: true),
+                    IftttMakerKey = table.Column<string>(nullable: true),
                     IsAdmin = table.Column<bool>(nullable: false),
                     IsEnabled = table.Column<bool>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: false),
@@ -50,7 +56,7 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    Number = table.Column<int>(nullable: false),
+                    Number = table.Column<int>(nullable: true),
                     UserId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -135,7 +141,8 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                 name: "IX_Categories_UserId_Number",
                 table: "Categories",
                 columns: new[] { "UserId", "Number" },
-                unique: true);
+                unique: true,
+                filter: "[Number] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Queries_CategoryId",

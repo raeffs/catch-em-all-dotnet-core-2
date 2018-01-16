@@ -40,6 +40,7 @@ namespace Reafftec.CatchEmAll.WebJobs
 
             services.AddTransient<UpdateQueriesJob, UpdateQueriesJob>();
             services.AddTransient<UpdateResultsJob, UpdateResultsJob>();
+            services.AddTransient<CleanupJob, CleanupJob>();
 
             services.AddDbContext<Context>(
                 o => o.UseSqlServer(configuration.GetConnectionString("CatchEmAllDatabase"),

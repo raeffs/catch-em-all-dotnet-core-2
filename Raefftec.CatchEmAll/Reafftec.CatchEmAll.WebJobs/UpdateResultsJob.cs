@@ -18,7 +18,6 @@ namespace Reafftec.CatchEmAll.WebJobs
             this.factory = factory;
         }
 
-        [Singleton]
         public async Task UpdateResultAsync([TimerTrigger("3/5 * * * * *", RunOnStartup = false)] TimerInfo timerInfo, ILogger logger)
         {
             try
@@ -28,6 +27,7 @@ namespace Reafftec.CatchEmAll.WebJobs
             catch (Exception exception)
             {
                 logger.LogError(exception, "Failed to update result!");
+                throw;
             }
         }
 

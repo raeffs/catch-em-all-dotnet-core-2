@@ -28,6 +28,7 @@ namespace Reafftec.CatchEmAll.WebJobs
             catch (Exception exception)
             {
                 logger.LogError(exception, "Failed to update query!");
+                throw;
             }
         }
 
@@ -40,6 +41,7 @@ namespace Reafftec.CatchEmAll.WebJobs
             catch (Exception exception)
             {
                 logger.LogError(exception, "Failed to update query!");
+                throw;
             }
         }
 
@@ -52,6 +54,7 @@ namespace Reafftec.CatchEmAll.WebJobs
             catch (Exception exception)
             {
                 logger.LogError(exception, "Failed to update query!");
+                throw;
             }
         }
 

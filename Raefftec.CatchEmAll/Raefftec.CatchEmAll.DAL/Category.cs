@@ -8,7 +8,7 @@ namespace Raefftec.CatchEmAll.DAL
     {
         public long Id { get; set; }
 
-        public int Number { get; set; }
+        public int? Number { get; set; }
 
         [Required]
         public string Name { get; set; }

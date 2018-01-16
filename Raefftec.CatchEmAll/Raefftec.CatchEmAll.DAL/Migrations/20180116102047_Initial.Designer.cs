@@ -11,7 +11,7 @@ using System;
 namespace Raefftec.CatchEmAll.DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20180116082711_Initial")]
+    [Migration("20180116102047_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,14 +31,15 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int>("Number");
+                    b.Property<int?>("Number");
 
                     b.Property<long>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId", "Number")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[Number] IS NOT NULL");
 
                     b.ToTable("Categories");
                 });
@@ -156,8 +157,20 @@ namespace Raefftec.CatchEmAll.DAL.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AlternativeEmail");
+
+                    b.Property<bool>("AutoFilterDeletedDuplicatesDefault");
+
                     b.Property<string>("Email")
                         .IsRequired();
+
+                    b.Property<bool>("EnableEmailNotification");
+
+                    b.Property<bool>("EnableIftttNotification");
+
+                    b.Property<string>("IftttMakerEventName");
+
+                    b.Property<string>("IftttMakerKey");
 
                     b.Property<bool>("IsAdmin");
 

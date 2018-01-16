@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Raefftec.CatchEmAll.Models;
+using Raefftec.CatchEmAll.Validation;
 
 namespace Raefftec.CatchEmAll.Controllers
 {
     [Authorize]
+    [ValidateModel]
     [Route("api/[controller]")]
     public class CategoryController : BaseController<DAL.Category>
     {

@@ -1,4 +1,6 @@
-﻿namespace Raefftec.CatchEmAll.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Raefftec.CatchEmAll.Models
 {
     public class Category
     {
@@ -6,6 +8,7 @@
 
         public int? Number { get; set; }
 
+        [Required]
         public string Name { get; set; }
     }
 }

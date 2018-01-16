@@ -31,3 +31,9 @@ td.fill-space {
 .table th {
     padding-right: 2em;
 }
+
+.table th .form-checkbox,
+.table td .form-checkbox {
+    padding: 0;
+    margin: 0;
+}

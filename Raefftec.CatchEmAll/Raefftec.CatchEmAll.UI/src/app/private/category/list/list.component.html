@@ -15,14 +15,21 @@
             <button class="btn btn-sm" (click)="nextPage()" [disabled]="!(model | async).hasNext">Next</button>
         </div>
         <div class="column col-12">
-            <table class="table">
+            <table class="table table-hover">
                 <thead>
                     <tr>
+                        <th>
+                            <label class="form-checkbox">
+                                <input type="checkbox">
+                                <i class="form-icon label-sm"></i>
+                            </label>
+                        </th>
                         <th>Number</th>
                         <th>Name</th>
                         <th class="fill-space"></th>
                     </tr>
                     <tr>
+                        <td></td>
                         <td>
                             <input class="form-input input-sm" type="text" placeholder="Number">
                         </td>
@@ -34,6 +41,12 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of (model | async).items">
+                        <td>
+                            <label class="form-checkbox">
+                                <input type="checkbox">
+                                <i class="form-icon label-sm"></i>
+                            </label>
+                        </td>
                         <td>{{ item.number }}</td>
                         <td>{{ item.name }}</td>
                         <td></td>

@@ -16,12 +16,13 @@
         </div>
         <div class="column col-6">
             <form class="form-horizontal" [formGroup]="model" novalidate>
-                <div class="form-group" [class.has-error]="model.controls.number.invalid">
+                <div class="form-group" [class.has-error]="model.controls.number.invalid && (model.controls.number.dirty || model.controls.number.touched)">
                     <div class="col-3">
                         <label class="form-label" for="number">Number</label>
                     </div>
                     <div class="col-9">
                         <input class="form-input" type="number" id="number" formControlName="number" placeholder="Ricardo Category Number (or leave empty)">
+                        <p *ngIf="model.controls.number.invalid && (model.controls.number.dirty || model.controls.number.touched)" class="form-input-hint">{{ model.controls.number | validationError }}</p>
                     </div>
                 </div>
                 <div class="form-group" [class.has-error]="model.controls.name.invalid && (model.controls.name.dirty || model.controls.name.touched)">
@@ -30,7 +31,7 @@
                     </div>
                     <div class="col-9">
                         <input class="form-input" type="text" id="name" formControlName="name" placeholder="Name">
-                        <p *ngIf="model.controls.name.errors?.required && (model.controls.name.dirty || model.controls.name.touched)" class="form-input-hint">{{ model.controls.name | validationError }}</p>
+                        <p *ngIf="model.controls.name.invalid && (model.controls.name.dirty || model.controls.name.touched)" class="form-input-hint">{{ model.controls.name | validationError }}</p>
                     </div>
                 </div>
             </form>

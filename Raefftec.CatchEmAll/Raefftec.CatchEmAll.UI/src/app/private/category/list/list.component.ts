@@ -28,6 +28,10 @@ export class ListComponent {
         this.loadPage(this.model.value.previousPage);
     }
 
+    public select(item: Category) {
+        item.selected = !item.selected;
+    }
+
     private loadPage(page: number): void {
         this.http.get<Page<Category>>('/api/category', { params: { page: page.toString() } })
             .subscribe(model => this.model.next(new PaginationHelper(model)));

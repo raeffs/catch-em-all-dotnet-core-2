@@ -41,9 +41,9 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of (model | async).items">
-                        <td>
+                        <td (click)="select(item)">
                             <label class="form-checkbox">
-                                <input type="checkbox">
+                                <input type="checkbox" [checked]="item.selected">
                                 <i class="form-icon label-sm"></i>
                             </label>
                         </td>

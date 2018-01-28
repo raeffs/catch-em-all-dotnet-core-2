@@ -6,13 +6,15 @@
                     <a routerLink="/private/category">Categories</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a routerLink="/private/category/0">Add a new category</a>
+                    <a *ngIf="!id">Add a new category</a>
+                    <a *ngIf="!!id">Category {{ model.value.name }}</a>
                 </li>
             </ul>
         </div>
         <div class="column col-12">
-            <button class="btn btn-sm btn-primary" (click)="save()" [disabled]="model.invalid">Save</button>
-            <button class="btn btn-sm" (click)="reset()">Reset</button>
+            <button class="btn btn-sm btn-primary" (click)="save()" [disabled]="isProcessing || model.invalid || model.pristine">Save</button>
+            <button class="btn btn-sm" (click)="reset()" [disabled]="isProcessing || model.pristine">Reset</button>
+            <button class="btn btn-sm btn-link loading" *ngIf="isProcessing">Loading</button>
         </div>
         <div class="column col-6">
             <form class="form-horizontal" [formGroup]="model" novalidate>

@@ -9,7 +9,6 @@ import { map } from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
-    selector: 'app-detail',
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush

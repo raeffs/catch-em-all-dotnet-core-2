@@ -8,7 +8,6 @@ import { mergeMap } from 'rxjs/operators/mergeMap';
 import { finalize } from 'rxjs/operators/finalize';
 
 @Component({
-    selector: 'app-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush

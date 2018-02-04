@@ -1,3 +1,82 @@
-<p>
-  list works!
-</p>
+<div class="container">
+    <div class="columns">
+        <div class="column col-12">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a>Queries</a>
+                </li>
+            </ul>
+        </div>
+        <div class="column col-6">
+            <button class="btn btn-sm" [class.btn-primary]="selectionCount === 0" [disabled]="isProcessing" routerLink="/private/query/new">Add</button>
+            <button class="btn btn-sm" [class.btn-primary]="selectionCount !== 0" [disabled]="isProcessing || selectionCount === 0" (click)="deleteSelected()">Delete</button>
+            <button class="btn btn-sm btn-link loading" *ngIf="isProcessing">Loading</button>
+        </div>
+        <div class="column col-6 text-right">
+            <button class="btn btn-sm" (click)="previousPage()" [disabled]="isProcessing || !(model | async).hasPrevious">Previous</button>
+            <button class="btn btn-sm" (click)="nextPage()" [disabled]="isProcessing || !(model | async).hasNext">Next</button>
+        </div>
+        <div class="column col-12" *ngIf="(model | async).totalItemCount !== 0">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th (click)="toggleAll($event)">
+                            <label class="form-checkbox">
+                                <input type="checkbox" [checked]="allSelected">
+                                <i class="form-icon label-sm"></i>
+                            </label>
+                        </th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Results</th>
+                        <th>Open</th>
+                        <th>New</th>
+                        <th class="fill-space"></th>
+                    </tr>
+                    <!--
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input class="form-input input-sm" type="text" placeholder="Number">
+                        </td>
+                        <td>
+                            <input class="form-input input-sm" type="text" placeholder="Name">
+                        </td>
+                        <td class="fill-space"></td>
+                    </tr>-->
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of (model | async).items" routerLink="/private/query/{{ item.id }}">
+                        <td (click)="select(item, $event)">
+                            <label class="form-checkbox">
+                                <input type="checkbox" [checked]="item.selected">
+                                <i class="form-icon label-sm"></i>
+                            </label>
+                        </td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.category }}</td>
+                        <td>{{ item.results }}</td>
+                        <td>{{ item.openResults }}</td>
+                        <td>{{ item.newResults }}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="column col-12" *ngIf="(model | async).totalItemCount === 0">
+            <div class="empty">
+                <p class="empty-title h5">You have no queries</p>
+                <p class="empty-subtitle">
+                    Categories fullfill two purposes. First, they let you organize your search queries. And second, they define in which
+                    <i>Ricardo</i> category your search query will search for new items. If you want to search for something
+                    in any
+                    <i>Ricardo</i> category, then you can simply create a category that has not
+                    <i>Ricardo</i> category number assigned. So let us start with creating your first category.
+                </p>
+                <div class="empty-action">
+                    <button class="btn btn-primary" routerLink="/private/query/new">Create your first query</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
